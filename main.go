@@ -3,10 +3,12 @@ package main
 import (
 	"log"
 	"os"
-	"sftp/helpcontent"
-	inp "sftp/input"
-	pwdfilgen "sftp/pwdfilgen"
-	"sftp/sshClient"
+
+	inp "github.com/sftp/input"
+	pwdfilgen "github.com/sftp/pwdfilgen"
+	"github.com/sftp/sshClient"
+
+	"github.com/sftp/helpcontent"
 )
 
 /* main operations */
@@ -38,11 +40,10 @@ func main() {
 			log.Printf("TRACE:\t starting conn for %s", inp.Inp.Uname)
 			log.Printf("TRACE:\t Password acquired for user  %s from %s", string(usr), pwdfilgen.Filnam)
 			log.Printf("TRACE:\t attempting   connection")
-			sshClient.SshSession(string(usr), string(pwd))
-			log.Printf("TRACE:\t starting conn for %s", inp.Inp.Url)
-			log.Printf("TRACE:\t starting conn for %s", inp.Inp.SrcDir)
-			log.Printf("TRACE:\t starting conn for %s", inp.Inp.TgtDir)
-			// sshFilOperation.sshFilOpr() file operation in the new func
+			sshClient.SshSession(string(usr), string(pwd), srcdir, tgtdir)
+			log.Printf("TRACE:\t starting conn for server  %s", inp.Inp.Url)
+			log.Printf("TRACE:\t copying from  %s", inp.Inp.SrcDir)
+			log.Printf("TRACE:\t destination dir used is %s", inp.Inp.TgtDir)
 
 		default:
 			log.Print(helpcontent.Helpcontent())
