@@ -18,7 +18,7 @@ Main focus of the program is to copy files using sftp from a unix source to wind
 
 # Build Instructions for Windows
  - To build the executable file for windows please use the inbuilt go build command.
- >go build main.go
+ `go build main.go`
 
 The build option generates the executable file for windows.
 
@@ -33,19 +33,19 @@ To get the help options for the program.
 
 `main.exe GenPwdFile` *password*
 
-GenPwdFile - generates txt file with encoded pwd.
-To generate the encoded pwd file from command prompt.
-*password* - provide the  password in plain text.
+GenPwdFile - generates txt file with encoded pwd.</br>
+To generate the encoded pwd file from command prompt.</br>
+*password* - provide the  password in plain text.</br>
 
 NOTE - if you have special characters in the password please escape them using double-quotes.
 
 `main.exe conn` *uname url srdir tgtdir*
 
-conn option establish connection between client and the ssh server.
-*uname* - user name in plain text
-*url* - ssh server url
-*srdir* -source dir from ssh server
-*tgtdir* -target dir in ssh server
+conn option establish connection between client and the ssh server.</br>
+*uname* - user name in plain text</br>
+*url* - ssh server url</br>
+*srdir* -source dir from ssh server</br>
+*tgtdir* -target dir in ssh server</br>
 
 # Build&Test guidelines
 ## Help
@@ -55,19 +55,19 @@ Above command display the help option for the program.
 ## Encode password
 `go run main.go GenPwdFile`  *password*
 
-GenPwdFile - generates txt file with encoded pwd.
-To generate the encoded pwd file from command prompt.
-*password* - provide the  password in plain text.
+GenPwdFile - generates txt file with encoded pwd.</br>
+To generate the encoded pwd file from command prompt.</br>
+*password* - provide the  password in plain text.</br>
 
 
 ## Connection
 `go run conn` *uname* *tgtserver* *srdir* *tgtdir*
 
-*conn* - Command Argument to start a ssh session to target server.
-*uname* - username for the session
-*tgtserver* - URL for the server where the connection is required.
-*srdir* - source location from where the file is required to be copied.
-*tgtserver* - target location to where the file is required to be moved.
+*conn* - Command Argument to start a ssh session to target server.</br>
+*uname* - username for the session</br>
+*tgtserver* - URL for the server where the connection is required.</br>
+*srdir* - source location from where the file is required to be copied.</br>
+*tgtserver* - target location to where the file is required to be moved.</br>
 
 
 
