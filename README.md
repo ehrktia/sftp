@@ -1,5 +1,5 @@
-SFTP program
-# sftp
+# SFTP program
+
 sftp program to copy files from unix to windows shared drive
 # Introduction
 Main focus of the program is to copy files using sftp from a unix source to windows shared drive destination with neither inbuilt ssh client or open ssh option.
