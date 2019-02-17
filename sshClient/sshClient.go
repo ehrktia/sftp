@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-func SshSession(uname, pwd string, sd, td []byte) {
+func SshSession(uname, pwd, srv, cmd, sd, td string) {
 
 	// var hostKey ssh.PublicKey
 	// An SSH client is represented with a ClientConn.
@@ -20,7 +20,6 @@ func SshSession(uname, pwd string, sd, td []byte) {
 		Auth: []ssh.AuthMethod{
 			ssh.Password(pwd),
 		},
-		/* ======== need to update this area */
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 	client, err := ssh.Dial("tcp", "localhost:22", config)
@@ -41,7 +40,7 @@ func SshSession(uname, pwd string, sd, td []byte) {
 	// the remote side using the Run method.
 	var b bytes.Buffer
 	session.Stdout = &b
-	if err := session.Run("cp ~/go/src/github.com/mvc/logging/logging.txt ~/Desktop"); err != nil {
+	if err := session.Run(string(cmd) + " " + string(sd) + " " + string(td)); err != nil {
 		log.Fatal("ERROR:\t Failed to run: " + err.Error())
 	}
 

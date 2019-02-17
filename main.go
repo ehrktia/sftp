@@ -18,6 +18,7 @@ var csr = con.String("serv", "", "name of server to connect with")
 var cun = con.String("uname", "", "uname to server to connect with")
 var srd = con.String("src", "", "src dir to move files from")
 var tgt = con.String("tgt", "", "tgt dir to mov file to")
+var cmd = con.String("cmd", "", "command which is required to be executed")
 var pval = pwd.String("pwd", "", "provide pwd for the user")
 
 /* main operations */
@@ -45,13 +46,14 @@ func main() {
 			usr := *cun
 			pwd := pwdfilgen.DecodePwd()
 			url := *csr
-			srcdir := []byte(*srd)
-			tgtdir := []byte(*tgt)
+			cmd := *cmd
+			srcdir := *srd
+			tgtdir := *tgt
 			inp.SetUserInp(string(usr), string(pwd), string(url), string(srcdir), string(tgtdir))
 			log.Printf("TRACE:\tstarting conn for %s", inp.Inp.Uname)
 			log.Printf("TRACE:\tPassword acquired for user  %s from %s", string(usr), pwdfilgen.Filnam)
 			log.Printf("TRACE:\tattempting   connection")
-			sshClient.SshSession(string(usr), string(pwd), srcdir, tgtdir)
+			sshClient.SshSession(string(usr), string(pwd), url, cmd, srcdir, tgtdir)
 			log.Printf("TRACE:\tstarting conn for server  %s", inp.Inp.Url)
 			log.Printf("TRACE:\tcopying from  %s", inp.Inp.SrcDir)
 			log.Printf("TRACE:\tdestination dir used is %s", inp.Inp.TgtDir)
