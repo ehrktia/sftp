@@ -31,21 +31,22 @@ Below are the list of options available.
 
 To get the help options for the program.
 
-`main.exe GenPwdFile` *password*
+`main.exe pwdgen --pwd=password`
 
-GenPwdFile - generates txt file with encoded pwd.</br>
+pwdgen - generates txt file with encoded pwd.</br>
 To generate the encoded pwd file from command prompt.</br>
 *password* - provide the  password in plain text.</br>
 
 NOTE - if you have special characters in the password please escape them using double-quotes.
 
-`main.exe conn` *uname url srdir tgtdir*
+`main.exe conn --serv=servername:port --uname=username --cmd=mv  --src=srcdir  --tgt=tgtdir` 
 
 conn option establish connection between client and the ssh server.</br>
-*uname* - user name in plain text</br>
-*url* - ssh server url</br>
-*srdir* -source dir from ssh server</br>
-*tgtdir* -target dir in ssh server</br>
+--uname : username in plain text.</br>
+--serv : ssh server url with a port (generatlly the default port is 22).</br>
+--cmd : command which is required to be executed in ssh remote server.</br>
+--srdir : source dir from ssh server.</br>
+--tgtdir:  target dir in ssh server.</br>
 
 # Build&Test guidelines
 ## Help
@@ -53,31 +54,31 @@ conn option establish connection between client and the ssh server.</br>
 Above command display the help option for the program.
 
 ## Encode password
-`go run main.go GenPwdFile`  *password*
+`go run main.go pwdgen --pwd=password`  
 
-GenPwdFile - generates txt file with encoded pwd.</br>
+pwdgen - generates txt file with encoded pwd.</br>
 To generate the encoded pwd file from command prompt.</br>
 *password* - provide the  password in plain text.</br>
 
 
 ## Connection
-`go run conn` *uname* *tgtserver* *srdir* *tgtdir*
+`go run main.go conn --serv=servername:port --uname=username --cmd=mv  --src=srcdir  --tgt=tgtdir` 
 
-*conn* - Command Argument to start a ssh session to target server.</br>
-*uname* - username for the session</br>
-*tgtserver* - URL for the server where the connection is required.</br>
-*srdir* - source location from where the file is required to be copied.</br>
-*tgtserver* - target location to where the file is required to be moved.</br>
-
+conn option establish connection between client and the ssh server.</br>
+--uname : username in plain text.</br>
+--serv : ssh server url with a port (generatlly the default port is 22).</br>
+--cmd : command which is required to be executed in ssh remote server.</br>
+--srdir : source dir from ssh server.</br>
+--tgtdir:  target dir in ssh server.</br>
 
 
 ## Limitations
-Current version is only for copying file from source to Target which is managed in function.
+- Passwordless authentication require key setup and key gen.
 ### Work in progress
  - Passwordless authentication.
  - logging to file.
  - unit test for program.
- - dynamic option to do other than copy operations.
+ 
 
 Please review and contact me with regards to comments, pull request and bugs.
 
