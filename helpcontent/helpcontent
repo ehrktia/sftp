@@ -1,0 +1,4 @@
+this is a command line operated program
+		To get list of available option  provide the command option -help=help
+		ex: uname=TE123455 pwd=password
+		To generate key use key mode

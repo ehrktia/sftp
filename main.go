@@ -1,76 +1,53 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"os"
-
-	inp "github.com/sftp/input"
-	pwdfilgen "github.com/sftp/pwdfilgen"
-	"github.com/sftp/sshClient"
-
-	"github.com/sftp/helpcontent"
+	"sftp/helpcontent"
+	inp "sftp/input"
+	pwdfilgen "sftp/pwdfilgen"
+	"sftp/sshClient"
 )
-
-var con = flag.NewFlagSet("conn", flag.ExitOnError)
-var pwd = flag.NewFlagSet("pwdgen", flag.ExitOnError)
-var csr = con.String("serv", "", "name of server to connect with")
-var cun = con.String("uname", "", "uname to server to connect with")
-var srd = con.String("src", "", "src dir to move files from")
-var tgt = con.String("tgt", "", "tgt dir to mov file to")
-var cmd = con.String("cmd", "", "command which is required to be executed")
-var pval = pwd.String("pwd", "", "provide pwd for the user")
 
 /* main operations */
 func main() {
-	if len(os.Args) < 2 {
-		log.Print(helpcontent.Helpcontent())
-		log.Fatalf("ERROR:\tno valid arg provided")
-		os.Exit(1)
-	}
-	switch os.Args[1] {
-	case "help":
-		log.Print(helpcontent.Helpcontent())
-	case "pwdgen":
-		pwd.Parse(os.Args[2:])
-	case "conn":
-		con.Parse(os.Args[2:])
-	default:
-		log.Print(helpcontent.Helpcontent())
-	}
-	if con.Parsed() {
-		if *csr == "" || *cun == "" || *srd == "" || *tgt == "" {
-			log.Fatal("ERROR:\tcannot take empty arg for conn parameter")
-			os.Exit(1)
-		} else {
-			usr := *cun
-			pwd := pwdfilgen.DecodePwd()
-			url := *csr
-			cmd := *cmd
-			srcdir := *srd
-			tgtdir := *tgt
-			inp.SetUserInp(string(usr), string(pwd), string(url), string(srcdir), string(tgtdir))
-			log.Printf("TRACE:\tstarting conn for %s", inp.Inp.Uname)
-			log.Printf("TRACE:\tPassword acquired for user  %s from %s", string(usr), pwdfilgen.Filnam)
-			log.Printf("TRACE:\tattempting   connection")
-			sshClient.SshSession(string(usr), string(pwd), url, cmd, srcdir, tgtdir)
-			log.Printf("TRACE:\tstarting conn for server  %s", inp.Inp.Url)
-			log.Printf("TRACE:\tcopying from  %s", inp.Inp.SrcDir)
-			log.Printf("TRACE:\tdestination dir used is %s", inp.Inp.TgtDir)
-		}
+	inpval := os.Args[1:]
 
-	}
-	if pwd.Parsed() {
-		if *pval == "" {
-			log.Fatal("ERROR:\tcannot take empty arg for pwd parameter")
-			os.Exit(1)
-		} else {
-
-			genpwd := []byte(*pval)
+	if len(inpval) < 1 {
+		log.Print(helpcontent.Helpcontent())
+	} else {
+		switch string(inpval[0]) {
+		case "help":
+			log.Print(helpcontent.Helpcontent())
+		case "GenPwdFile":
+			genpwd := []byte(inpval[1])
+			log.Print(genpwd)
 			if len(string(genpwd)) < 7 {
-				log.Fatal("ERROR:\tmin length for pwd is 7 characters")
+				log.Fatal("ERROR: min length for pwd is 7 characters")
 			}
 			pwdfilgen.GenPwdFile(genpwd)
+
+		case "conn":
+
+			usr := []byte(inpval[1])
+			pwd := pwdfilgen.DecodePwd()
+			url := []byte(inpval[2])
+			srcdir := []byte(inpval[3])
+			tgtdir := []byte(inpval[4])
+			inp.SetUserInp(string(usr), string(pwd), string(url), string(srcdir), string(tgtdir))
+			log.Printf("TRACE:\t starting conn for %s", inp.Inp.Uname)
+			log.Printf("TRACE:\t Password acquired for user  %s from %s", string(usr), pwdfilgen.Filnam)
+			log.Printf("TRACE:\t attempting   connection")
+			sshClient.SshSession(string(usr), string(pwd))
+			log.Printf("TRACE:\t starting conn for %s", inp.Inp.Url)
+			log.Printf("TRACE:\t starting conn for %s", inp.Inp.SrcDir)
+			log.Printf("TRACE:\t starting conn for %s", inp.Inp.TgtDir)
+			// sshFilOperation.sshFilOpr() file operation in the new func
+
+		default:
+			log.Print(helpcontent.Helpcontent())
 		}
+
 	}
+
 }

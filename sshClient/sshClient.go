@@ -1,13 +1,12 @@
 package sshClient
 
 import (
-	"bytes"
 	"log"
 
 	"golang.org/x/crypto/ssh"
 )
 
-func SshSession(uname, pwd, srv, cmd, sd, td string) {
+func SshSession(uname, pwd string) *ssh.Session {
 
 	// var hostKey ssh.PublicKey
 	// An SSH client is represented with a ClientConn.
@@ -24,24 +23,27 @@ func SshSession(uname, pwd, srv, cmd, sd, td string) {
 	}
 	client, err := ssh.Dial("tcp", "localhost:22", config)
 	if err != nil {
-		log.Fatal("ERROR:\t Failed to dial: ", err)
+		log.Fatal("ERROR: Failed to dial: ", err)
 	}
 
 	// Each ClientConn can support multiple interactive sessions,
 	// represented by a Session.
 	session, err := client.NewSession()
 	if err != nil {
-		log.Fatal("ERROR:\t Failed to create session: ", err)
+		log.Fatal("ERROR: Failed to create session: ", err)
 	}
 	defer session.Close()
-	log.Printf("TRACE:\t session started")
+	// fmt.Println(reflect.TypeOf(session))
+	log.Printf("TRACE: session started")
+	return session
 
-	// Once a Session is created, you can execute a single command on
-	// the remote side using the Run method.
-	var b bytes.Buffer
-	session.Stdout = &b
-	if err := session.Run(string(cmd) + " " + string(sd) + " " + string(td)); err != nil {
-		log.Fatal("ERROR:\t Failed to run: " + err.Error())
-	}
-
+	/* 	// Once a Session is created, you can execute a single command on
+	   	// the remote side using the Run method.
+	   	var b bytes.Buffer
+	   	session.Stdout = &b
+	   	if err := session.Run("date"); err != nil {
+	   		log.Fatal("Failed to run: " + err.Error())
+	   	}
+	   	fmt.Println(b.String())
+	*/
 }
