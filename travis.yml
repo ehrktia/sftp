@@ -1,0 +1,4 @@
+language: golang
+script: go get github.com/ehrktia/sftp
+notifications:
+    email:true
