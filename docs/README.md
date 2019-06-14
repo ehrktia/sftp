@@ -3,7 +3,6 @@
 sftp program to copy files from unix to windows shared drive
 # Quick Links
 
-
 * [introduction](#introduction)
 * [How-to-guide](#how-to-guide)
 * [Build-Instructions-for-Windows](#build-instructions-for-windows)
@@ -15,8 +14,6 @@ sftp program to copy files from unix to windows shared drive
  * [Limitations](#limitations)
  * [Work-in-Progress](#work-in-progress)
    
-
-
 
 ## Introduction
 Main focus of the program is to copy files using sftp from a unix source to windows shared drive destination with neither inbuilt ssh client or open ssh option.
