@@ -1,5 +1,8 @@
 # SFTP program
 
+
+[![Build Status](https://travis-ci.com/ehrktia/sftp.svg?branch=master)]
+
 sftp program to copy files from unix to windows shared drive
 # Quick Links
 
@@ -95,5 +98,6 @@ conn option establish connection between client and the ssh server.</br>
  
 
 Please review and contact me with regards to comments, pull request and bugs.
+[travisci]:https://travis-ci.com/ehrktia/sftp.svg?branch=master)](https://travis-ci.com/ehrktia/sftp
 
 
