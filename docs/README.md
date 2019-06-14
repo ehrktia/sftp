@@ -1,14 +1,31 @@
 # SFTP program
 
 sftp program to copy files from unix to windows shared drive
-# Introduction
+# Quick Links
+
+
+* [introduction](#introduction)
+* [How-to-guide](#how-to-guide)
+* [Build-Instructions-for-Windows](#build-instructions-for-windows)
+   * [Usage](#usage)
+* [Build test guidelines](#build-test-guidelines)
+   * [Help](#help)
+   * [Encode Password](#encode-password)
+   * [Connection](#connection)
+ * [Limitations](#limitations)
+ * [Work-in-Progress](#work-in-progress)
+   
+
+
+
+## Introduction
 Main focus of the program is to copy files using sftp from a unix source to windows shared drive destination with neither inbuilt ssh client or open ssh option.
 
 * Current version uses username and password authentication method against the source for establishing the ssh connection.
 * Password is encoded and stored in a txt file.
 * Option to encode password and generate text file are inbuilt.
 
-# How to guide
+## How-to-guide
 
 1. To use this program follow the normal git clone process and get the entire source code available.
 2. Once after cloning the repo , run the go main program.
@@ -16,13 +33,13 @@ Main focus of the program is to copy files using sftp from a unix source to wind
 *  This program takes command line arguments.
 *  Please provide the following arguments to access various inbuilt options.
 
-# Build Instructions for Windows
+## Build-Instructions-for-Windows
  - To build the executable file for windows please use the inbuilt go build command.
  `go build main.go`
 
 The build option generates the executable file for windows.
 
-# Usage
+### Usage
 
 To use the executable in Windows , follow the normal process ofexecuting an exe file.
 Below are the list of options available.
@@ -48,12 +65,12 @@ conn option establish connection between client and the ssh server.</br>
 --srdir : source dir from ssh server.</br>
 --tgtdir:  target dir in ssh server.</br>
 
-# Build&Test guidelines
-## Help
+## Build Test guidelines
+### Help
 `go run main.go help` 
 Above command display the help option for the program.
 
-## Encode password
+### Encode password
 `go run main.go pwdgen --pwd=password`  
 
 pwdgen - generates txt file with encoded pwd.</br>
@@ -61,7 +78,7 @@ To generate the encoded pwd file from command prompt.</br>
 *password* - provide the  password in plain text.</br>
 
 
-## Connection
+### Connection
 `go run main.go conn --serv=servername:port --uname=username --cmd=mv  --src=srcdir  --tgt=tgtdir` 
 
 conn option establish connection between client and the ssh server.</br>
