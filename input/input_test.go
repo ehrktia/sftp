@@ -1,20 +1,24 @@
 package input
 
-import "testing"
-func TestSetUserInp(t *testing.T) {
-	inp := []struct {
-		uname  string
-		pwd    string
-		url    string
-		srcdir string
-		tgtdir string
-	}
-	{
-		{"tester","test!ing","testing.com","/src","/tgt"},
-		{"tester1","test!ing1","testing1.com","/src1","/tgt1"}
-	}
-	for _,val:=range inp{
-		
-	}
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+)
 
+func TestSetUserInp(t *testing.T) {
+	filname := filepath.Join("testdata", "input")
+	file, err := os.Open(filname)
+	if err != nil {
+		fmt.Println(err)
+	}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		content := scanner.Text()
+		cols := strings.Split(content, ",")
+		SetUserInp(cols[0], cols[1], cols[2], cols[3], cols[4])
+	}
 }
