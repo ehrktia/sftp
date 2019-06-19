@@ -14,7 +14,7 @@ var err = errors.New("ERR Occured")
 
 var Filnam = "pwd"
 
-/* main operations */
+/* main operations gen pwd file and encode hex*/
 func GenPwdFile(pwd []byte) {
 	inpwd := pwd
 	_, err := os.OpenFile(Filnam, os.O_RDONLY|os.O_CREATE, 0755)

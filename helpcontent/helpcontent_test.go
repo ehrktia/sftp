@@ -16,6 +16,6 @@ func TestHelpcontent(t *testing.T) {
 	in := string(inp)
 	actual := Helpcontent()
 	if in != actual {
-		t.Errorf("exp out :%s actual out:%s", inp, out)
+		t.Errorf("exp out :%s actual out:%s", inp, actual)
 	}
 }
