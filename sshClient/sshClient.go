@@ -1,4 +1,4 @@
-package sshClient
+package sshclient
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-func SshSession(uname, pwd string) *ssh.Session {
+func SSHSession(uname, pwd string) *ssh.Session {
 
 	// var hostKey ssh.PublicKey
 	// An SSH client is represented with a ClientConn.

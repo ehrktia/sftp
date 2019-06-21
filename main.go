@@ -38,7 +38,7 @@ func main() {
 			log.Printf("TRACE:\t starting conn for %s", inp.Inp.Uname)
 			log.Printf("TRACE:\t Password acquired for user  %s from %s", string(usr), pwdfilgen.Filnam)
 			log.Printf("TRACE:\t attempting   connection")
-			sshClient.SshSession(string(usr), string(pwd))
+			sshClient.SSHSession(string(usr), string(pwd))
 			log.Printf("TRACE:\t starting conn for %s", inp.Inp.Url)
 			log.Printf("TRACE:\t starting conn for %s", inp.Inp.SrcDir)
 			log.Printf("TRACE:\t starting conn for %s", inp.Inp.TgtDir)
