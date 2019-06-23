@@ -28,7 +28,6 @@ func main() {
 			pwdfilgen.GenPwdFile(genpwd)
 
 		case "conn":
-
 			usr := []byte(inpval[1])
 			pwd := pwdfilgen.DecodePwd()
 			url := []byte(inpval[2])
