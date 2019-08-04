@@ -6,7 +6,7 @@ import (
 )
 
 func Helpcontent() string {
-	filname := "helpcontent"
+	var filname = "helpcontent"
 	content, err := ioutil.ReadFile(filname)
 	if err != nil {
 		log.Fatal("ERROR: Reading helpcontent file")

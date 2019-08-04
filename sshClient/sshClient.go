@@ -1,4 +1,4 @@
-package sshclient
+package sshClient
 
 import (
 	"log"
