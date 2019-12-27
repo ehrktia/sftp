@@ -12,4 +12,5 @@ func Helpcontent() string {
 		log.Fatal("ERROR: Reading helpcontent file")
 	}
 	return string(content)
+    
 }

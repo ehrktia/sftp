@@ -12,7 +12,6 @@ import (
 /* main operations */
 func main() {
 	inpval := os.Args[1:]
-
 	if len(inpval) < 1 {
 		log.Print(helpcontent.Helpcontent())
 	} else {
@@ -24,9 +23,10 @@ func main() {
 			log.Print(genpwd)
 			if len(string(genpwd)) < 7 {
 				log.Fatal("ERROR: min length for pwd is 7 characters")
-			}
-			pwdfilgen.GenPwdFile(genpwd)
 
+			}
+
+			pwdfilgen.GenPwdFile(genpwd)
 		case "conn":
 			usr := []byte(inpval[1])
 			pwd := pwdfilgen.DecodePwd()
