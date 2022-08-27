@@ -2,20 +2,16 @@ package pwdfilgen
 
 import (
 	"encoding/hex"
-	"errors"
-	io "io/ioutil"
+	"fmt"
+	"io"
 	"log"
 	"os"
+	"path/filepath"
 )
-
-/* var declaration */
-
-var err = errors.New("ERR Occured")
 
 var Filnam = "pwd"
 
-/* main operations gen pwd file and encode hex*/
-func GenPwdFile(pwd []byte) {
+func GenPwdFile(pwd []byte) error{
 	inpwd := pwd
 	_, err := os.OpenFile(Filnam, os.O_RDONLY|os.O_CREATE, 0755)
 	if err != nil {
@@ -23,12 +19,20 @@ func GenPwdFile(pwd []byte) {
 	}
 	encodedStr := hex.EncodeToString(inpwd)
 	p := []byte(encodedStr)
-	io.WriteFile(Filnam, p, 0644)
+return	os.WriteFile(Filnam,p,0644)
 
 }
 func DecodePwd() string {
-	pwdfil, err := io.ReadFile(Filnam)
-
+	cwd, err := os.Getwd()
+	if err != nil {
+		panic(fmt.Sprintf("error getting current working dir:%v\n", err))
+	}
+	fpath := filepath.Join(cwd, "pwdfilgen", "pwd")
+	f, err := os.Open(fpath)
+	if err != nil {
+		panic(fmt.Sprintf("can not read file:%v\n", fpath))
+	}
+	pwdfil, err := io.ReadAll(f)
 	if err != nil {
 		log.Fatal("ERROR: Reading pwdfile -", err)
 	}

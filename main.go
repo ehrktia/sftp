@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -22,7 +23,8 @@ func main() {
 	log := log.New(os.Stderr, "Msg:", log.Ldate|log.Ltime|log.Lshortfile)
 	inpval := os.Args[1:]
 	if !cmd.IsValidArgs(inpval) {
-		log.Print(helpcontent.Helpcontent())
+		log.Print(helpcontent.Helpcontent(log))
+		os.Exit(0)
 
 	}
 	checkOption(log, inpval)
@@ -31,14 +33,16 @@ func main() {
 func checkOption(l *log.Logger, args []string) {
 	switch string(args[0]) {
 	case help:
-		l.Print(helpcontent.Helpcontent())
+		l.Print(helpcontent.Helpcontent(l))
 	case genPwdFile:
 		genpwd := []byte(args[1])
 		l.Printf("%s-%v\n", "INFO", genpwd)
 		if len(string(genpwd)) < 7 {
 			l.Fatalf("%s-%s\n", "ERROR", "min length for pwd is 7 characters")
 		}
-		pwdfilgen.GenPwdFile(genpwd)
+		if err := pwdfilgen.GenPwdFile(genpwd); err != nil {
+			panic(fmt.Sprintf("error generating pwd:%v\n", err))
+		}
 	case conn:
 		usr := []byte(args[1])
 		pwd := pwdfilgen.DecodePwd()
@@ -54,7 +58,7 @@ func checkOption(l *log.Logger, args []string) {
 		l.Printf("%s-starting conn for %s", "INFO", input.Inp.SrcDir)
 		l.Printf("%s-starting conn for %s", "INFO", input.Inp.TgtDir)
 	case invalid:
-		l.Print(helpcontent.Helpcontent())
+		l.Print(helpcontent.Helpcontent(l))
 	}
 
 }
