@@ -1,16 +1,20 @@
 package helpcontent
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
+	"os"
 )
 
 func Helpcontent() string {
-	var filname = "helpcontent"
-	content, err := ioutil.ReadFile(filname)
+	var filname = "./helpcontent/helpcontent"
+	f, err := os.Open(filname)
 	if err != nil {
-		log.Fatal("ERROR: Reading helpcontent file")
+		panic("missing help text file")
 	}
-	return string(content)
-    
+	d, err := io.ReadAll(f)
+	if err != nil && err != io.EOF {
+		log.Printf("%s-%s","ERROR",err)
+	}
+	return string(d)
 }
