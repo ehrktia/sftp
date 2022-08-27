@@ -3,14 +3,18 @@ package helpcontent
 import (
 	"io"
 	"log"
+	"os"
 )
 
 func Helpcontent() string {
-	var filname = "helpcontent"
-	content, err := io.ReadAll(filname)
+	var filname = "./helpcontent/helpcontent"
+	f, err := os.Open(filname)
 	if err != nil {
-		log.Fatal("ERROR: Reading helpcontent file")
+		panic("missing help text file")
 	}
-	return string(content)
-
+	d, err := io.ReadAll(f)
+	if err != nil && err != io.EOF {
+		log.Printf("%s-%s","ERROR",err)
+	}
+	return string(d)
 }
