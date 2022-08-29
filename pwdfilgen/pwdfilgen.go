@@ -11,7 +11,7 @@ import (
 
 var Filnam = "pwd"
 
-func GenPwdFile(pwd []byte) error{
+func GenPwdFile(pwd []byte) error {
 	inpwd := pwd
 	_, err := os.OpenFile(Filnam, os.O_RDONLY|os.O_CREATE, 0755)
 	if err != nil {
@@ -19,9 +19,10 @@ func GenPwdFile(pwd []byte) error{
 	}
 	encodedStr := hex.EncodeToString(inpwd)
 	p := []byte(encodedStr)
-return	os.WriteFile(Filnam,p,0644)
+	return os.WriteFile(Filnam, p, 0644)
 
 }
+
 func DecodePwd() string {
 	cwd, err := os.Getwd()
 	if err != nil {
