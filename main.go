@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -15,5 +14,6 @@ func main() {
 	if !cmd.IsValidArgs(inpval) {
 		log.Print(helpcontent.Helpcontent(log))
 		os.Exit(0)
-	cmd.CheckOption(log, inpval)
+		cmd.CheckOption(log, inpval)
+	}
 }
