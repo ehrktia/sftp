@@ -20,8 +20,8 @@ func GenPwdFile(pwd []byte) error {
 	encodedStr := hex.EncodeToString(inpwd)
 	p := []byte(encodedStr)
 	return os.WriteFile(Filnam, p, 0644)
-
 }
+
 
 func DecodePwd() string {
 	cwd, err := os.Getwd()
