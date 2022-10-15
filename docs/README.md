@@ -1,6 +1,11 @@
 # SFTP program
 
-[![Build Status](https://travis-ci.com/ehrktia/sftp.svg?branch=master)][travisci]
+
+![GitHub](https://img.shields.io/github/license/ehrktia/sftp)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/ehrktia/sftp)
+![GitHub contributors](https://img.shields.io/github/contributors/ehrktia/sftp)
+![GitHub last commit](https://img.shields.io/github/last-commit/ehrktia/sftp)
+
 
 sftp program to copy files from unix to windows shared drive
 
