@@ -6,7 +6,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-func SSHSession(l *log.Logger, uname, pwd, host string) *ssh.Session {
+func SSHSession(l *log.Logger, uname, pwd, host string) (*ssh.Session, error) {
 
 	// var hostKey ssh.PublicKey
 	// An SSH client is represented with a ClientConn.
@@ -23,18 +23,18 @@ func SSHSession(l *log.Logger, uname, pwd, host string) *ssh.Session {
 	}
 	client, err := ssh.Dial("tcp", host, config)
 	if err != nil {
-		l.Fatal("ERROR: Failed to dial: ", err)
+		return nil, err
 	}
 
 	// Each ClientConn can support multiple interactive sessions,
 	// represented by a Session.
 	session, err := client.NewSession()
 	if err != nil {
-		l.Fatal("ERROR: Failed to create session: ", err)
+		return nil, err
 	}
 	defer session.Close()
 	l.Printf("INFO:  session started")
-	return session
+	return session, nil
 
 	/* 	// Once a Session is created, you can execute a single command on
 	   	// the remote side using the Run method.
