@@ -13,7 +13,8 @@ func getFile(l *log.Logger) (*os.File, error) {
 	if err != nil {
 		l.Panicf(fmt.Sprintf("%s-%v", "can not retrieve dir", err))
 	}
-	fileName := filepath.Join(pwd,  "helpcontent")
+
+	fileName := filepath.Join(pwd, "helpcontent")
 	l.Printf("opening file:%s\n", fileName)
 	return os.Open(fileName)
 }
