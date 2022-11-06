@@ -13,7 +13,13 @@ func getFile(l *log.Logger) (*os.File, error) {
 	if err != nil {
 		l.Panicf(fmt.Sprintf("%s-%v", "can not retrieve dir", err))
 	}
+<<<<<<< Updated upstream
 	fileName := filepath.Join(pwd, "helpcontent", "helpcontent")
+||||||| constructed merge base
+	fileName := filepath.Join(pwd,  "helpcontent")
+=======
+	fileName := filepath.Join(pwd, "helpcontent")
+>>>>>>> Stashed changes
 	l.Printf("opening file:%s\n", fileName)
 	return os.Open(fileName)
 }
