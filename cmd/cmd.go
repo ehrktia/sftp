@@ -46,7 +46,12 @@ func CheckOption(l *log.Logger, args []string) {
 		l.Printf("%s-%s\n", "INFO", input.Inp.Uname)
 		l.Printf("%s-Password acquired for user:%s from %s\n", "INFO", string(usr), pwdfilgen.Filnam)
 		l.Printf("%s-%s\n", "INFO", "attempting connection")
-		_, err := sshClient.SSHSession(l, string(usr), string(pwd), string(host))
+		sshConfig := sshClient.NewSSHConfig(string(usr), string(pwd), string(host))
+		sshclient, err := sshClient.NewSSHClient(sshConfig)
+		if err != nil {
+			panic(err)
+		}
+		_, err = sshClient.SSHSession(l, sshclient)
 		if err != nil {
 			panic(err)
 		}
