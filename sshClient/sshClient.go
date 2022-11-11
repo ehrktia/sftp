@@ -1,10 +1,14 @@
 package sshClient
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"golang.org/x/crypto/ssh"
 )
+
+var ErrEmptyConfig error = fmt.Errorf("%s", "empty config")
 
 type sshConfig struct {
 	sshClientconfig *ssh.ClientConfig
@@ -18,8 +22,16 @@ func validateInput(username, password, host string) bool {
 	return true
 }
 
+func validateHost(host string) bool {
+	return strings.Contains(host, ":")
+
+}
+
 func NewSSHConfig(username, password, host string) sshConfig {
 	if !validateInput(username, password, host) {
+		return sshConfig{}
+	}
+	if !validateHost(host) {
 		return sshConfig{}
 	}
 	return sshConfig{
@@ -35,7 +47,14 @@ func NewSSHConfig(username, password, host string) sshConfig {
 
 }
 
+func validateConfig(sshConfig sshConfig) bool {
+	return strings.EqualFold(sshConfig.host, "")
+}
+
 func NewSSHClient(sshConfig sshConfig) (*ssh.Client, error) {
+	if validateConfig(sshConfig) {
+		return nil, ErrEmptyConfig
+	}
 	client, err := ssh.Dial("tcp", sshConfig.host, sshConfig.sshClientconfig)
 	if err != nil {
 		return nil, err

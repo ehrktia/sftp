@@ -33,10 +33,14 @@ func TestValidateInput(t *testing.T) {
 
 func TestNewConfig(t *testing.T) {
 	t.Run("generate new ssh config when usr pwd host provided", func(t *testing.T) {
-		usr, pwd, host := t.Name(), t.Name(), t.Name()
+		usr, pwd, host := t.Name(), t.Name(), t.Name()+":111"
 		got := NewSSHConfig(usr, pwd, host)
 		if got.sshClientconfig == nil {
 			t.Fatal("error generating config")
+		}
+		validateGot := validateConfig(got)
+		if validateGot {
+			t.Fatal("expected to get valid config")
 		}
 
 	})
@@ -44,6 +48,23 @@ func TestNewConfig(t *testing.T) {
 		got := NewSSHConfig(t.Name(), "", t.Name())
 		if got.sshClientconfig != nil {
 			t.Fatal("should not generate a valid config with empty input")
+		}
+	})
+	t.Run("fail when host provided with missing port", func(t *testing.T) {
+		got := NewSSHConfig(t.Name(), t.Name(), t.Name())
+		if got.sshClientconfig != nil {
+			t.Fatal("expected to get empty config")
+		}
+	})
+
+}
+
+func TestNewSSHClient(t *testing.T) {
+	testSSHConfig := NewSSHConfig(t.Name(), t.Name(), t.Name()+":1111")
+	t.Run("create a new client", func(t *testing.T) {
+		_, err := NewSSHClient(testSSHConfig)
+		if err == nil {
+			t.Fatal(err)
 		}
 	})
 
