@@ -1,12 +1,69 @@
 package sshClient
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"golang.org/x/crypto/ssh"
 )
 
-func SSHSession(l *log.Logger, uname, pwd, host string) (*ssh.Session, error) {
+var ErrEmptyConfig error = fmt.Errorf("%s", "empty config")
+
+type sshConfig struct {
+	sshClientconfig *ssh.ClientConfig
+	host            string
+}
+
+func validateInput(username, password, host string) bool {
+	if username == "" || password == "" || host == "" {
+		return false
+	}
+	return true
+}
+
+func validateHost(host string) bool {
+	return strings.Contains(host, ":")
+
+}
+
+func NewSSHConfig(username, password, host string) sshConfig {
+	if !validateInput(username, password, host) {
+		return sshConfig{}
+	}
+	if !validateHost(host) {
+		return sshConfig{}
+	}
+	return sshConfig{
+		sshClientconfig: &ssh.ClientConfig{
+			User: username,
+			Auth: []ssh.AuthMethod{
+				ssh.Password(password),
+			},
+			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		},
+		host: host,
+	}
+
+}
+
+func validateConfig(sshConfig sshConfig) bool {
+	return strings.EqualFold(sshConfig.host, "")
+}
+
+func NewSSHClient(sshConfig sshConfig) (*ssh.Client, error) {
+	if validateConfig(sshConfig) {
+		return nil, ErrEmptyConfig
+	}
+	client, err := ssh.Dial("tcp", sshConfig.host, sshConfig.sshClientconfig)
+	if err != nil {
+		return nil, err
+	}
+	return client, nil
+
+}
+
+func SSHSession(l *log.Logger, client *ssh.Client) (*ssh.Session, error) {
 
 	// var hostKey ssh.PublicKey
 	// An SSH client is represented with a ClientConn.
@@ -14,20 +71,10 @@ func SSHSession(l *log.Logger, uname, pwd, host string) (*ssh.Session, error) {
 	// To authenticate with the remote server you must pass at least one
 	// implementation of AuthMethod via the Auth field in ClientConfig,
 	// and provide a HostKeyCallback.
-	config := &ssh.ClientConfig{
-		User: uname,
-		Auth: []ssh.AuthMethod{
-			ssh.Password(pwd),
-		},
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
-	}
-	client, err := ssh.Dial("tcp", host, config)
-	if err != nil {
-		return nil, err
-	}
 
 	// Each ClientConn can support multiple interactive sessions,
 	// represented by a Session.
+
 	session, err := client.NewSession()
 	if err != nil {
 		return nil, err

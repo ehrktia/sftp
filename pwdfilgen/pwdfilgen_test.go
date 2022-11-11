@@ -12,7 +12,7 @@ func TestGenPwdFile(t *testing.T) {
 	//check file
 	Filnam := "pwd"
 	inptxt := []byte("pwd")
-	GenPwdFile(inptxt)
+	GenPwdFile(inptxt) //nolint:errcheck
 	_, err := os.Stat(Filnam)
 	if err != nil {
 		log.Fatal(err)
