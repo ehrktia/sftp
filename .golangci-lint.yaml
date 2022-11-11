@@ -428,16 +428,20 @@ linters-settings:
     original-url: github.com/golangci/example-linter
 
 linters:
+  disable-all: true
   enable:
-    - megacheck
+    - gofmt
+    - deadcode
+    - errcheck
+    - gosimple # 1.18
     - govet
-  disable:
-    - maligned
-    - prealloc
-  disable-all: false
-  presets:
-    - bugs
-    - unused
+    - ineffassign
+    - staticcheck # 1.18
+    - unused # 1.18
+    - varcheck
+    - gocritic
+    - bodyclose # 1.18
+    - gosec
   fast: false
 
 
@@ -458,6 +462,7 @@ issues:
         - errcheck
         - dupl
         - gosec
+        - structcheck
 
     # Exclude known linters from partially hard-vendored code,
     # which is impossible to exclude via "nolint" comments.
@@ -465,6 +470,7 @@ issues:
       text: "weak cryptographic primitive"
       linters:
         - gosec
+        - structcheck
 
     # Exclude some staticcheck messages
     - linters:
@@ -536,4 +542,6 @@ severity:
   rules:
     - linters:
         - dupl
+      severity: info
+        - structcheck
       severity: info
