@@ -3,11 +3,13 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/ehrktia/sftp/helpcontent"
 	"github.com/ehrktia/sftp/input"
 	"github.com/ehrktia/sftp/pwdfilgen"
 	"github.com/ehrktia/sftp/sshClient"
+	"github.com/mitchellh/cli"
 )
 
 const (
@@ -20,6 +22,24 @@ const (
 // IsValidArgs checks length of args from input stdin
 func IsValidArgs(args []string) bool {
 	return len(args) > 1
+}
+
+func Run() int {
+	c := cli.NewCLI("sftp", "0.0")
+	c.Args = os.Args[1:]
+	c.Commands = map[string]cli.CommandFactory{
+		help: func() (cli.Command, error) {
+			return &helpCommand{}, nil
+		},
+	}
+	exitCode, err := c.Run()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Exited with code-%d,Error executing command:%v\n", exitCode, err)
+		return exitCode
+
+	}
+
+	return 0
 }
 
 func CheckOption(l *log.Logger, args []string) {
