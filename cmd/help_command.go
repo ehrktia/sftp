@@ -22,6 +22,7 @@ func (h *helpCommand) Run(args []string) int {
 	}
 	f := flag.NewFlagSet(help, flag.ContinueOnError)
 	f.StringVar(&h.name, help, "help", "help message to be displayed")
+	_, _ = h.output.Write([]byte(h.Help()))
 	if err := f.Parse(args); err != nil {
 		return 1
 	}

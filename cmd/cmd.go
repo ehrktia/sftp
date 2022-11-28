@@ -29,7 +29,7 @@ func Run() int {
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		help: func() (cli.Command, error) {
-			return &helpCommand{}, nil
+			return &helpCommand{name: help}, nil
 		},
 	}
 	exitCode, err := c.Run()
@@ -45,7 +45,9 @@ func Run() int {
 func CheckOption(l *log.Logger, args []string) {
 	switch string(args[0]) {
 	case help:
-		l.Print(helpcontent.Helpcontent(l))
+		if exitCode := Run(); exitCode > 0 {
+			l.Printf("%s-%d\n", "un expected error", exitCode)
+		}
 	case genPwdFile:
 		genpwd := []byte(args[1])
 		l.Printf("%s-%v\n", "INFO", genpwd)
