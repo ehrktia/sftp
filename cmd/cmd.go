@@ -31,6 +31,9 @@ func Run() int {
 		help: func() (cli.Command, error) {
 			return &helpCommand{name: help}, nil
 		},
+		conn: func() (cli.Command, error) {
+			return &connCommand{name: conn}, nil
+		},
 	}
 	exitCode, err := c.Run()
 	if err != nil {
