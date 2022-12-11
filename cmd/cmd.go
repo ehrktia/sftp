@@ -3,11 +3,13 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/ehrktia/sftp/helpcontent"
 	"github.com/ehrktia/sftp/input"
 	"github.com/ehrktia/sftp/pwdfilgen"
 	"github.com/ehrktia/sftp/sshClient"
+	"github.com/mitchellh/cli"
 )
 
 const (
@@ -22,10 +24,30 @@ func IsValidArgs(args []string) bool {
 	return len(args) > 1
 }
 
+func Run() int {
+	c := cli.NewCLI("sftp", "0.0")
+	c.Args = os.Args[1:]
+	c.Commands = map[string]cli.CommandFactory{
+		help: func() (cli.Command, error) {
+			return &helpCommand{name: help}, nil
+		},
+	}
+	exitCode, err := c.Run()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Exited with code-%d,Error executing command:%v\n", exitCode, err)
+		return exitCode
+
+	}
+
+	return 0
+}
+
 func CheckOption(l *log.Logger, args []string) {
 	switch string(args[0]) {
 	case help:
-		l.Print(helpcontent.Helpcontent(l))
+		if exitCode := Run(); exitCode > 0 {
+			l.Printf("%s-%d\n", "un expected error", exitCode)
+		}
 	case genPwdFile:
 		genpwd := []byte(args[1])
 		l.Printf("%s-%v\n", "INFO", genpwd)
