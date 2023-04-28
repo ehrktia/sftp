@@ -13,3 +13,14 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - uses: actions/checkout@v3
     - run: go test ./...
+
+  changelog:
+    name: change-log
+    runs-on: ubuntu-latest
+    steps:
+      - uses: orhun/git-cliff-action@v2
+        with:
+          config: cliff.toml
+          args: --verbose
+    env:
+      OUTPUT: CHANGELOG.md
