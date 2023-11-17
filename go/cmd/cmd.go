@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/ehrktia/sftp/helpcontent"
 	"github.com/ehrktia/sftp/input"
 	"github.com/ehrktia/sftp/pwdfilgen"
 	"github.com/ehrktia/sftp/sshClient"
@@ -29,7 +28,7 @@ func Run() int {
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		help: func() (cli.Command, error) {
-			return &helpCommand{name: help}, nil
+			return &HelpCommand{Name: help}, nil
 		},
 	}
 	exitCode, err := c.Run()
@@ -81,6 +80,6 @@ func CheckOption(l *log.Logger, args []string) {
 		l.Printf("%s-starting conn for %s", "INFO", input.Inp.SrcDir)
 		l.Printf("%s-starting conn for %s", "INFO", input.Inp.TgtDir)
 	case invalid:
-		l.Print(helpcontent.Helpcontent(l))
+		l.Print(HelpMsg)
 	}
 }
