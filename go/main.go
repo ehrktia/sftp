@@ -10,8 +10,8 @@ import (
 func main() {
 	log := log.New(os.Stderr, "Msg:", log.Ldate|log.Ltime|log.Lshortfile)
 	inpval := os.Args[1:]
+	if len(inpval) < 1 {
+		log.Fatalf("%s\n", cmd.HelpMsg)
+	}
 	cmd.CheckOption(log, inpval)
-	// if !cmd.IsValidArgs(inpval) {
-		// os.Exit(0)
-	// }
 }
